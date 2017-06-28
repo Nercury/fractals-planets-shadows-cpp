@@ -4,7 +4,7 @@ void TrMenuItem::Initialize()
 {
 	if (text_obj.empty())
 	{
-		text_obj.put(new GLST_Text(FullPathTo("fonts\\FreeMonoBold.ttf"), 12, GLST_Middle_Center));
+		text_obj.put(new GLST_Text(FullPathTo("fonts/FreeMonoBold.ttf"), 12, GLST_Middle_Center));
 	}
 	text_obj.o()->SetText(text);
 	width = (int32_t)text_obj.o()->Width() + 10;

@@ -24,6 +24,7 @@ protected:
 	virtual void OnExitWindow(SDLGL* engine) = 0;
 	virtual void OnKeyUp(SDLGL* engine, SDL_Event* ev) {};
 	virtual void OnKeyDown(SDLGL* engine, SDL_Event* ev) {};
+	virtual void OnMouseWheel(SDLGL* engine, SDL_Event* ev) {};
 	virtual void OnMouseUp(SDLGL* engine, SDL_Event* ev) {};
 	virtual void OnMouseDown(SDLGL* engine, SDL_Event* ev) {};
 	virtual void OnMouseMove(SDLGL* engine, SDL_Event* ev) {};

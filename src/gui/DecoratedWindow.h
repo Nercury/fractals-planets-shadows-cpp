@@ -5,7 +5,7 @@
 #include "../glst/GLST_Text.h"
 
 class DecoratedWindow
-	: public Window
+	: public MWindow
 {
 private:
 	p<Texture> texture;

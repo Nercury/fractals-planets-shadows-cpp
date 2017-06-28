@@ -2,11 +2,11 @@
 
 #include "a_win.h"
 
-#include <gl\GL.h>
-#include <gl\GLU.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 #include "glext.h"
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 //#define NO_SDL_GLEXT
 //#include <SDL_opengl.h>
 
@@ -22,17 +22,12 @@ static bool shading_enabled = false;
 	  #include <OpenGL/glext.h>
 	  void setupExtensions()
 	  { shading_enabled = true; }; // OS X already has these extensions
-# else 
-#   ifdef __X11__
+# else
 	  #include <GL/glx.h>
 	  #include <GL/glxext.h>
 	  #define uglGetProcAddress(x) (*glXGetProcAddressARB)((const GLubyte*)(x))
 	  #define WIN32_OR_X11
 	  void setupExtensions();
-#   else
-	  void setupExtensions()
-	  { shading_enabled = false; }; // just fail otherwise?
-#   endif
 # endif
 #endif
 
@@ -95,7 +90,6 @@ void wMultMatrixf(const GLfloat *m);
 class SDLGL
 {
 private:
-	SDL_Surface *surface;
 	Uint32 sdl_flags;
 
 	GLint width;
@@ -106,6 +100,8 @@ private:
 	std::string title;
 	boost::posix_time::ptime last_time;
 public:
+	SDL_Window *surface;
+
 	SDLGL(std::string title, int width, int height, bool fullscreen);
 
 	boost::function<bool (SDLGL*)> InitFunction;
@@ -115,6 +111,7 @@ public:
 	boost::function<void (SDLGL*,SDL_Event*)> KeyUpFunction;
 	boost::function<void (SDLGL*,SDL_Event*)> KeyDownFunction;
 	boost::function<void (SDLGL*,SDL_Event*)> MouseUpFunction;
+	boost::function<void (SDLGL*,SDL_Event*)> MouseWheelFunction;
 	boost::function<void (SDLGL*,SDL_Event*)> MouseDownFunction;
 	boost::function<void (SDLGL*,SDL_Event*)> MouseMoveFunction;
 

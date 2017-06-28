@@ -17,7 +17,7 @@ GLST_Surface::GLST_Surface(int width, int height, TTF_Font *font)
 	this->font = font;
 	/*this->surface = SDL_CreateRGBSurface(0, width, height, 32, 
 			0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);*/
-	this->surface = SDL_CreateRGBSurface(SDL_SWSURFACE | SDL_SRCALPHA,
+	this->surface = SDL_CreateRGBSurface(SDL_SWSURFACE | SDL_ALPHA_TRANSPARENT, /* TODO: WAS SDL_ALPHA */
 	              width, height, 32,
                   0x00FF0000, 0x0000FF00, 0x000000FF, 0x00000000);
 	//SDL_SetAlpha(this->surface, SDL_SRCALPHA, SDL_ALPHA_OPAQUE);
@@ -146,7 +146,7 @@ GLuint *GLST_Surface::GetGLTexture()
 	}
 }
 
-static Uint32 getpixel(SDL_Surface *surface, int x, int y)
+static Uint32 a_getpixel(SDL_Surface *surface, int x, int y)
 {
     int bpp = surface->format->BytesPerPixel;
     /* Here p is the address to the pixel we want to retrieve */
@@ -173,7 +173,7 @@ static Uint32 getpixel(SDL_Surface *surface, int x, int y)
     }
 }
 
-static void putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
+static void a_putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
 {
     int bpp = surface->format->BytesPerPixel;
     /* Here p is the address to the pixel we want to set */
@@ -212,7 +212,7 @@ static SDL_Color make_sdl_color(Uint8 r, Uint8 g, Uint8 b)
 	color.r = r;
 	color.g = g;
 	color.b = b;
-	color.unused = 0;
+	color.a = 0;
 	return color;
 }
 

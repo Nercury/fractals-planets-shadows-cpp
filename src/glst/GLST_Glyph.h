@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../a_unicode.h"
-#include <SDL_ttf.h>
+#include <SDL2/SDL_ttf.h>
 #include "GLST_Surface.h"
 #include "GLST_Glyph.h"
 

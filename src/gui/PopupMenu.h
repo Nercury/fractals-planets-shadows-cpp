@@ -3,7 +3,7 @@
 #include "Window.h"
 
 class PopupMenu
-	: public Window
+	: public MWindow
 {
 private:
 	

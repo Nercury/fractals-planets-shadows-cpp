@@ -10,7 +10,7 @@ Pavirsiaus objektas, kuriame laikomi atrenderinti simboliai.
 #include "../sdlgl.h"
 
 #include "../a_unicode.h"
-#include <SDL_ttf.h>
+#include <SDL2/SDL_ttf.h>
 
 class GLST_Surface
 {

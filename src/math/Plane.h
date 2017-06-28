@@ -2,6 +2,9 @@
 
 #include "Vector.h"
 
+const float ZERO = 0.000000001f;
+const float PI = 3.14159265359f;
+
 enum PLANE {
 	LEFT_PLANE, RIGHT_PLANE,
 	BOTTOM_PLANE, TOP_PLANE,
@@ -13,7 +16,7 @@ public:
 	Plane() { };
 	Plane(float _a, float _b, float _c, float _d) : a(_a), b(_b), c(_c), d(_d) { };
 
-	void Plane::fromPoints(const Vector3f &_p0, const Vector3f &_p1, const Vector3f &_p2)
+	void fromPoints(const Vector3f &_p0, const Vector3f &_p1, const Vector3f &_p2)
 	{
 		Vector3f v0(_p0 - _p1);
 		Vector3f v1(_p2 - _p1);
@@ -25,7 +28,7 @@ public:
 		d = -(_p0.x * a + _p0.y * b + _p0.z * c);
 	};
 
-	void Plane::fromPointAndNormal(const Vector3f &_p, const Vector3f &_n)
+	void fromPointAndNormal(const Vector3f &_p, const Vector3f &_n)
 	{
 		Vector3f nn = _n;
 		nn.normalize();

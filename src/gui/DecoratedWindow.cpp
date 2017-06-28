@@ -20,7 +20,7 @@ DecoratedWindow::~DecoratedWindow(void)
 void DecoratedWindow::Initialize()
 {
 	texture = gui->theme->GetTexture("gui/window_baked.png");
-	title_text = new GLST_Text(FullPathTo("fonts\\FreeMonoBold.ttf"), 12, GLST_Middle_Center);
+	title_text = new GLST_Text(FullPathTo("fonts/FreeMonoBold.ttf"), 12, GLST_Middle_Center);
 	ostringstream ss;
 	ss << "Yay, my window " << handle << "!";
 	title_text->SetText(ss.str());
@@ -68,7 +68,7 @@ bool DecoratedWindow::OnMouseUp(SDL_Event* ev, int32_t x, int32_t y)
 		Close();
 	}
 	downButton = false;
-	return Window::OnMouseUp(ev, x, y);
+	return MWindow::OnMouseUp(ev, x, y);
 }
 
 bool DecoratedWindow::OnMouseDown(SDL_Event* ev, int32_t x, int32_t y)
@@ -88,7 +88,7 @@ bool DecoratedWindow::OnMouseDown(SDL_Event* ev, int32_t x, int32_t y)
 		down = true;
 		return true;
 	}
-	else return Window::OnMouseDown(ev, x, y);
+	else return MWindow::OnMouseDown(ev, x, y);
 }
 
 bool DecoratedWindow::OnMouseMove(SDL_Event* ev, int32_t x, int32_t y)
@@ -120,5 +120,5 @@ bool DecoratedWindow::OnMouseMove(SDL_Event* ev, int32_t x, int32_t y)
 		return true;
 	}
 	else
-		return Window::OnMouseMove(ev, x, y);
+		return MWindow::OnMouseMove(ev, x, y);
 }

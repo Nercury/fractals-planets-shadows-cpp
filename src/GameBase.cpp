@@ -8,6 +8,7 @@ void GameBase::Run(SDLGL & engine)
 	engine.ExitFunction = boost::bind(&GameBase::OnExitWindow, this, _1);
 	engine.KeyUpFunction = boost::bind(&GameBase::OnKeyUp, this, _1, _2);
 	engine.KeyDownFunction = boost::bind(&GameBase::OnKeyDown, this, _1, _2);
+	engine.MouseWheelFunction = boost::bind(&GameBase::OnMouseWheel, this, _1, _2);
 	engine.MouseUpFunction = boost::bind(&GameBase::OnMouseUp, this, _1, _2);
 	engine.MouseDownFunction = boost::bind(&GameBase::OnMouseDown, this, _1, _2);
 	engine.MouseMoveFunction = boost::bind(&GameBase::OnMouseMove, this, _1, _2);
@@ -20,6 +21,7 @@ void GameBase::Run(SDLGL & engine)
 	engine.ExitFunction.clear();
 	engine.KeyUpFunction.clear();
 	engine.KeyDownFunction.clear();
+	engine.MouseWheelFunction.clear();
 	engine.MouseUpFunction.clear();
 	engine.MouseDownFunction.clear();
 	engine.MouseMoveFunction.clear();

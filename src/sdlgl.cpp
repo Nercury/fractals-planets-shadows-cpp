@@ -13,7 +13,7 @@ using namespace std;
   PFNGLGETSHADERIVPROC oglGetShaderiv;
   PFNGLGETPROGRAMIVPROC oglGetProgramiv;
   PFNGLACTIVETEXTUREARBPROC           oglActiveTextureARB;
-  PFNGLMULTITEXCOORD2FARBPROC         oglMultiTexCoord2fARB; 
+  PFNGLMULTITEXCOORD2FARBPROC         oglMultiTexCoord2fARB;
   PFNGLCREATEPROGRAMOBJECTARBPROC     oglCreateProgramObjectARB;
   PFNGLDELETEOBJECTARBPROC            oglDeleteObjectARB;
   PFNGLCREATESHADEROBJECTARBPROC      oglCreateShaderObjectARB;
@@ -351,11 +351,11 @@ static bool findString(char* in, char* list)
   while (*list != 0)
   {
     int length = strcspn(list," ");
-    
+
     if( thisLength == length )
       if (!strncmp(in,list,length))
         return true;
-        
+
     list += length + 1;
   }
   return false;
@@ -406,7 +406,7 @@ void setupExtensions()
 	oglCheckFramebufferStatusEXT = (PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC)
 	  uglGetProcAddress("glCheckFramebufferStatusEXT");
 
-if (false 
+if (false
 	|| oglGenFramebuffersEXT == NULL
 	|| oglBindFramebufferEXT == NULL
 	|| oglFramebufferTexture2DEXT == NULL
@@ -414,7 +414,7 @@ if (false
 	cout << "Warning! Framebuffer extensions not available. No shadows, sorry :(" << endl;
 
   if( hasAbrObj && hasSL && hasVS && hasPS )
-  { 
+  {
  	oglGetShaderiv = (PFNGLGETSHADERIVPROC)
 	  uglGetProcAddress("glGetShaderiv");
 	if (oglGetShaderiv == NULL)
@@ -633,7 +633,7 @@ bool SDLInit()
 			cout << "Failed to initialize SDL: " << SDL_GetError() << endl;
 			return false;
 		} else {
-			SDL_EnableUNICODE(true);
+			//SDL_EnableUNICODE(true); /* TODO: Unicode in SDL2 */
 			cout << "SDL initialized." << endl;
 		}
 	}
@@ -661,13 +661,11 @@ void SDLGL::Run()
 			cout << "Client thread started." << endl;
 
 				/* Flags to pass to SDL_SetVideoMode */
-			int videoFlags;
+			Uint32 videoFlags;
 			/* main loop variable */
 			bool done = false;
 			/* used to collect events */
 			SDL_Event sdl_event;
-			/* this holds some info about our display */
-			const SDL_VideoInfo *videoInfo;
 			/* whether or not the window is active */
 			bool isActive = true;
 
@@ -680,46 +678,24 @@ void SDLGL::Run()
 				}
 			}
 
-			if (ok) {
-
-				/* Fetch the video info */
-				videoInfo = SDL_GetVideoInfo();
-
-				if ( !videoInfo )
-				{
-					cout << "Video query failed: " << SDL_GetError() << endl;
-					ok = false;
-				}
-			}
-
 			if (ok)
 			{
-
-				/* the flags to pass to SDL_SetVideoMode */
-				videoFlags  = SDL_OPENGL;          /* Enable OpenGL in SDL */
-				videoFlags |= SDL_GL_DOUBLEBUFFER; /* Enable double buffering */
-				videoFlags |= SDL_HWPALETTE;       /* Store the palette in hardware */
-				videoFlags |= SDL_RESIZABLE;       /* Enable window resizing */
-
-				/* This checks to see if surfaces can be stored in memory */
-				if ( videoInfo->hw_available )
-					videoFlags |= SDL_HWSURFACE;
-				else
-					videoFlags |= SDL_SWSURFACE;
-
-				/* This checks if hardware blits can be done */
-				if ( videoInfo->blit_hw )
-					videoFlags |= SDL_HWACCEL;
-					
-				if (this->fullscreen)
-					videoFlags |= SDL_FULLSCREEN;
-
 				/* Sets up OpenGL double buffering */
 				SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
 
 				/* get a SDL surface */
-				this->surface = SDL_SetVideoMode( this->width, this->height, SCREEN_BPP,
-							videoFlags );
+				this->surface = SDL_CreateWindow(title.c_str(),
+												 SDL_WINDOWPOS_UNDEFINED,
+												 SDL_WINDOWPOS_UNDEFINED,
+												 this->width, this->height,
+                                                 SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE );
+
+                SDL_SetWindowMinimumSize(this->surface, 320, 200);
+                SDL_SetWindowMaximumSize(this->surface, 100000, 100000);
+                SDL_SetWindowSize(this->surface, 800, 600);
+
+                SDL_GLContext context = SDL_GL_CreateContext(this->surface);
+
 
 				/* Verify there is a surface */
 				if ( !this->surface )
@@ -742,9 +718,9 @@ void SDLGL::Run()
 			}
 
 			if (ok) {
-				SDL_WM_SetCaption(title.c_str(), title.c_str());
-
 				last_time = boost::posix_time::microsec_clock::local_time();
+
+                auto sdlWindowID = SDL_GetWindowID(surface);
 
 				this->is_running = true;
 
@@ -766,37 +742,50 @@ void SDLGL::Run()
 						{
 							switch( sdl_event.type )
 							{
-							case SDL_ACTIVEEVENT:
-								/* Something's happend with our focus
-								 * If we lost focus or we are iconified, we
-								 * shouldn't draw the screen
-								 */
-								//l("Focus changed.", L_SYSTEM_INFO);
-								if ( sdl_event.active.gain == 0 )
-									isActive = false;
-								else
-									isActive = true;
-								break;		
-							case SDL_VIDEORESIZE:
-								l("Window resized.", L_SYSTEM_INFO);
-								/* handle resize event */
-								this->width = sdl_event.resize.w;
-								this->height = sdl_event.resize.h;
+                            case SDL_WINDOWEVENT: {
+                                if (sdlWindowID == sdl_event.window.windowID) {
+                                    switch (sdl_event.window.event) {
+                                        case SDL_WINDOWEVENT_FOCUS_LOST: {
+                                            /* Something's happend with our focus
+                                             * If we lost focus or we are iconified, we
+                                             * shouldn't draw the screen
+                                             */
+                                            isActive = false;
 
-								l("Change video mode after resize...", L_SYSTEM_INFO);
-								surface = SDL_SetVideoMode( sdl_event.resize.w,
-											sdl_event.resize.h,
-											SCREEN_BPP, videoFlags );
-								if ( !surface )
-								{
-									cout << "Could not get a surface after resize: " << SDL_GetError() << endl;
-									this->Close();
-								}
-								l("Running game resize...", L_SYSTEM_INFO);
-								if (this->ResizeFunction)
-									this->ResizeFunction(this);
-								l("Resize ok.", L_SYSTEM_INFO);
-								break;
+                                            break;
+                                        }
+                                        case SDL_WINDOWEVENT_FOCUS_GAINED: {
+                                            isActive = true;
+                                            break;
+                                        }
+                                        case SDL_WINDOWEVENT_RESIZED: {
+                                            l("Window resized.", L_SYSTEM_INFO);
+                                            /* handle resize event */
+                                            this->width = sdl_event.window.data1;
+                                            this->height = sdl_event.window.data2;
+
+//                                        l("Change video mode after resize...", L_SYSTEM_INFO);
+//                                        SDL_SetWindowSize( surface, we.data1,
+//                                                                     we.data2 );
+//                                        if ( !surface )
+//                                        {
+//                                            cout << "Could not get a surface after resize: " << SDL_GetError() << endl;
+//                                            this->Close();
+//                                        }
+                                            l("Running game resize...", L_SYSTEM_INFO);
+                                            if (this->ResizeFunction)
+                                                this->ResizeFunction(this);
+                                            l("Resize ok.", L_SYSTEM_INFO);
+                                            break;
+                                        }
+                                        case SDL_WINDOWEVENT_CLOSE: {
+                                            this->Close();
+                                            break;
+                                        }
+                                    }
+                                }
+                                break;
+                            }
 							case SDL_MOUSEBUTTONDOWN:
 								if (MouseDownFunction)
 								{
@@ -815,6 +804,12 @@ void SDLGL::Run()
 									MouseMoveFunction(this,&sdl_event);
 								}
 								break;
+                            case SDL_MOUSEWHEEL:
+                                if (MouseWheelFunction)
+                                {
+                                    MouseWheelFunction(this,&sdl_event);
+                                }
+                                break;
 							case SDL_KEYDOWN:
 								if (KeyDownFunction)
 								{

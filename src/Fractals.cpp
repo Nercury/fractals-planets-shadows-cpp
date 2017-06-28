@@ -273,7 +273,7 @@ void Fractals::OnRender(SDLGL* engine, boost::posix_time::time_duration render_d
 	this->DrawFractals(width, height);
 
 	/* Draw it to the screen */
-	SDL_GL_SwapBuffers();
+	SDL_GL_SwapWindow(engine->surface);
 }
 
 void Fractals::OnExitWindow(SDLGL* engine)

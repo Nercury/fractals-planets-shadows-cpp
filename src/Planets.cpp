@@ -27,9 +27,9 @@ Planets::Planets(void)
 	drawAxis = false;
 
 	textures = new TextureManager();
-	textures->MapFileTexture(earthTexture, FullPathTo("textures\\earth.jpg"));
-	textures->MapFileTexture(sunTexture, FullPathTo("textures\\sun.jpg"));
-	textures->MapFileTexture(moonTexture, FullPathTo("textures\\moon.jpg"));
+	textures->MapFileTexture(earthTexture, FullPathTo("textures/earth.jpg"));
+	textures->MapFileTexture(sunTexture, FullPathTo("textures/sun.jpg"));
+	textures->MapFileTexture(moonTexture, FullPathTo("textures/moon.jpg"));
 }
 
 Planets::~Planets(void)
@@ -60,11 +60,11 @@ bool Planets::OnInitWindow(SDLGL* engine)
 		return false;
 	}
 
-	infotext = new GLST_Text(FullPathTo("fonts\\FreeMonoBold.ttf"), 12, GLST_Top_Left);
-	yeartimetext = new GLST_Text(FullPathTo("fonts\\FreeMonoBold.ttf"), 12, GLST_Top_Left);
-	daytimetext = new GLST_Text(FullPathTo("fonts\\FreeMonoBold.ttf"), 12, GLST_Top_Left);
-	speedtext = new GLST_Text(FullPathTo("fonts\\FreeMonoBold.ttf"), 12, GLST_Top_Left);
-	biinfotext = new GLST_Text(FullPathTo("fonts\\FreeMonoBold.ttf"), 12, GLST_Top_Left);
+	infotext = new GLST_Text(FullPathTo("fonts/FreeMonoBold.ttf"), 12, GLST_Top_Left);
+	yeartimetext = new GLST_Text(FullPathTo("fonts/FreeMonoBold.ttf"), 12, GLST_Top_Left);
+	daytimetext = new GLST_Text(FullPathTo("fonts/FreeMonoBold.ttf"), 12, GLST_Top_Left);
+	speedtext = new GLST_Text(FullPathTo("fonts/FreeMonoBold.ttf"), 12, GLST_Top_Left);
+	biinfotext = new GLST_Text(FullPathTo("fonts/FreeMonoBold.ttf"), 12, GLST_Top_Left);
 	speedtext->SetText("Speed x " + tostr(timeScale));
 
 	infotext->SetColor(1,1,0);
@@ -388,7 +388,7 @@ void Planets::OnRender(SDLGL* engine, boost::posix_time::time_duration delta)
 	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
 
-	SDL_GL_SwapBuffers();
+	SDL_GL_SwapWindow(engine->surface);
 }
 
 void Planets::OnExitWindow(SDLGL* engine)

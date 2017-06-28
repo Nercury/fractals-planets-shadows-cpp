@@ -3,17 +3,17 @@
 #include "Gui.h"
 #include "GuiLayer.h"
 
-Window::Window()
+MWindow::MWindow()
 {
 	events = NULL;
 }
 
-Window::~Window()
+MWindow::~MWindow()
 {
 
 }
 
-void Window::Close()
+void MWindow::Close()
 {
 	if (guiLayer != NULL)
 	{
@@ -23,7 +23,7 @@ void Window::Close()
 		l("Error - can't close window because guiLayer object is not assigned.", L_ERROR);
 }
 
-void Window::Render(boost::posix_time::time_duration delta)
+void MWindow::Render(boost::posix_time::time_duration delta)
 {
 	glEnable(GL_BLEND);
 	glDisable(GL_TEXTURE_2D);
@@ -39,7 +39,7 @@ void Window::Render(boost::posix_time::time_duration delta)
 	Container::Render(delta);
 }
 
-bool Window::OnMouseDown(SDL_Event* ev, int32_t x, int32_t y)
+bool MWindow::OnMouseDown(SDL_Event* ev, int32_t x, int32_t y)
 {
 	BringToTop();
 	return Container::OnMouseDown(ev, x, y);

@@ -5,7 +5,6 @@
 
 typedef double DoublePoint[2];  
 typedef double ElasticItem[4]; 
-int random();
 
 class Fractals : public GameBase
 {

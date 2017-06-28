@@ -82,12 +82,12 @@ void GuiLayer::DoPendingWindowRemove()
 	}
 }
 
-void GuiLayer::RemoveWindow(Window * window)
+void GuiLayer::RemoveWindow(MWindow * window)
 {
 	RemoveWindow(window->Handle());
 }
 
-void GuiLayer::RemoveWindow(p<Window> window)
+void GuiLayer::RemoveWindow(p<MWindow> window)
 {
 	RemoveWindow(window.o());
 }
@@ -111,7 +111,7 @@ void GuiLayer::DoWindowRemoveByHandle(WHandle handle)
 	}
 }
 
-void GuiLayer::AddWindow(p<Window> window)
+void GuiLayer::AddWindow(p<MWindow> window)
 {
 	DoWindowRemoveByHandle(window.o()->Handle());
 	windows.push_back(window);
@@ -131,7 +131,7 @@ void GuiLayer::Render(boost::posix_time::time_duration delta)
 
 	glPushMatrix();
 
-	Window * item;
+	MWindow * item;
 	GLfloat x, y;
 	int i = 0;
 	for (auto it = windows.begin(); it != windows.end(); ++it)
@@ -164,7 +164,7 @@ void GuiLayer::Render(boost::posix_time::time_duration delta)
 
 void GuiLayer::OnBringWindowToTop(WHandle handle)
 {
-	p<Window> window;
+	p<MWindow> window;
 	for (auto it = windows.begin(); it != windows.end(); ++it)
 	{
 		if (it->o()->Handle() == handle)
@@ -204,7 +204,7 @@ bool GuiLayer::OnMouseUp(SDL_Event* ev)
 	UngrabMouse();
 	if (mouse_window_handle != 0)
 	{
-		Window * item;
+		MWindow * item;
 		for (auto it = windows.rbegin(); it != windows.rend(); ++it)
 		{
 			item = it->o();
@@ -221,7 +221,7 @@ bool GuiLayer::OnMouseUp(SDL_Event* ev)
 
 bool GuiLayer::OnMouseDown(SDL_Event* ev)
 {
-	Window * item;
+	MWindow * item;
 	int32_t x, y, w, h, mx, my;
 	for (auto it = windows.rbegin(); it != windows.rend(); ++it)
 	{
@@ -255,7 +255,7 @@ bool GuiLayer::OnMouseMove(SDL_Event* ev)
 	bool result = false;
 	if (mouse_window_handle != 0)
 	{
-		Window * item;
+		MWindow * item;
 		for (auto it = windows.rbegin(); it != windows.rend(); ++it)
 		{
 			item = it->o();
@@ -268,7 +268,7 @@ bool GuiLayer::OnMouseMove(SDL_Event* ev)
 	}
 	else
 	{
-		Window * item;
+		MWindow * item;
 		int32_t x, y, w, h, mx, my;
 		for (auto it = windows.rbegin(); it != windows.rend(); ++it)
 		{

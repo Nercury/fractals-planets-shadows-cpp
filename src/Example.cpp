@@ -76,7 +76,7 @@ void Example::OnRender(SDLGL* engine, boost::posix_time::time_duration delta)
 		glVertex2i(  1, 1 ); // Bottom Right Of The Quad 
     glEnd(); // Done Drawing The Quad  
 
-	SDL_GL_SwapBuffers(); // special thing that need to be done to put results on screen
+	SDL_GL_SwapWindow(engine->surface); // special thing that need to be done to put results on screen
 }
 
 /*

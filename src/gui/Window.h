@@ -5,7 +5,7 @@
 
 #include "../L.h"
 
-class Window
+class MWindow
 	: public Container
 {
 private:
@@ -17,8 +17,8 @@ private:
 	int32_t autoMinHeight;
 	WindowEvents * events;
 public:
-	Window(void);
-	virtual ~Window(void);
+	MWindow(void);
+	virtual ~MWindow(void);
 	inline void BringToTop() { 
 		if (this->events != NULL)
 			this->events->OnBringWindowToTop(this->handle);

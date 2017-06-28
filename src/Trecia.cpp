@@ -37,35 +37,35 @@ Trecia::Trecia(void)
 	light2.index = 2;
 	light2.rotation = light2.rotation * Quaternionf(Vector3f(1.7f,1.1f,0.1f), PI / 2).normalize();
 
-	floor.texture.put(new Texture(textures, FullPathTo("textures\\floor_stone.jpg")));
+	floor.texture.put(new Texture(textures, FullPathTo("textures/floor_stone.jpg")));
 	floor.size.x = floorWidth;
 	floor.size.y = floorLength;
 	floor.rotation = Quaternionf(Vector3f(1,0,0), PI / 2 * 3);
 	floor.position.z += floorLength;
 
-	ceiling.texture.put(new Texture(textures, FullPathTo("textures\\concrete.jpg")));
+	ceiling.texture.put(new Texture(textures, FullPathTo("textures/concrete.jpg")));
 	ceiling.size.x = floorWidth;
 	ceiling.size.y = floorLength;
 	ceiling.rotation = Quaternionf(Vector3f(1,0,0), PI / 2);
 	ceiling.position.y += height;
 
-	wleft.texture.put(new Texture(textures, FullPathTo("textures\\masonry-wall-texture.jpg")));
+	wleft.texture.put(new Texture(textures, FullPathTo("textures/masonry-wall-texture.jpg")));
 	wleft.size.x = floorLength;
 	wleft.size.y = height;
 	wleft.rotation = Quaternionf(Vector3f(0,1,0), -PI / 2);
 	wleft.position.x += floorWidth;
 	
-	wright.texture.put(new Texture(textures, FullPathTo("textures\\masonry-wall-texture.jpg")));
+	wright.texture.put(new Texture(textures, FullPathTo("textures/masonry-wall-texture.jpg")));
 	wright.size.x = floorLength;
 	wright.size.y = height;
 	wright.rotation = Quaternionf(Vector3f(0,1,0), PI / 2);
 	wright.position.z += floorLength;
 
-	wfront.texture.put(new Texture(textures, FullPathTo("textures\\masonry-wall-texture.jpg")));
+	wfront.texture.put(new Texture(textures, FullPathTo("textures/masonry-wall-texture.jpg")));
 	wfront.size.x = floorWidth;
 	wfront.size.y = height;
 
-	wback.texture.put(new Texture(textures, FullPathTo("textures\\masonry-wall-texture.jpg")));
+	wback.texture.put(new Texture(textures, FullPathTo("textures/masonry-wall-texture.jpg")));
 	wback.size.x = floorWidth;
 	wback.size.y = height;
 	wback.rotation = Quaternionf(Vector3f(0,1,0), PI);
@@ -101,7 +101,7 @@ Trecia::Trecia(void)
 			}
 		)
 	);
-	polyObject.o()->texture.put(new Texture(textures, FullPathTo("textures\\earth.jpg")));
+	polyObject.o()->texture.put(new Texture(textures, FullPathTo("textures/earth.jpg")));
 	polyObject.o()->position = Vector3f(900, 20, 600);
 	polyObject.o()->shadowObject = true;
 
@@ -256,8 +256,8 @@ void Trecia::InitFramebuffer(GLuint * fboId)
 
 bool Trecia::OnInitWindow(SDLGL* engine)
 {
-	sh_n_light_textured.put(new Shader(shaders, FullPathTo("shaders\\n_light_vs.fx"), FullPathTo("shaders\\n_light_ps.fx")));
-	sh_shiny_no_texture.put(new Shader(shaders, FullPathTo("shaders\\shiny_no_texture_vs.fx"), FullPathTo("shaders\\shiny_no_texture_ps.fx")));
+	sh_n_light_textured.put(new Shader(shaders, FullPathTo("shaders/n_light_vs.fx"), FullPathTo("shaders/n_light_ps.fx")));
+	sh_shiny_no_texture.put(new Shader(shaders, FullPathTo("shaders/shiny_no_texture_vs.fx"), FullPathTo("shadersf/shiny_no_texture_ps.fx")));
 
 	floor.shader = sh_n_light_textured;
 	wleft.shader = sh_n_light_textured;
@@ -269,7 +269,7 @@ bool Trecia::OnInitWindow(SDLGL* engine)
 	polyObject.o()->shader = sh_shiny_no_texture;
 	wrlModel.o()->shader = sh_shiny_no_texture;
 
-	txtInfo.put(new GLST_Text(FullPathTo("fonts\\FreeMonoBold.ttf"), 12, GLST_Top_Left));
+	txtInfo.put(new GLST_Text(FullPathTo("fonts/FreeMonoBold.ttf"), 12, GLST_Top_Left));
 	txtInfo.o()->SetColor(1,1,0);
 	txtInfo.o()->SetText("Running. Press M to show menu.");
 
@@ -665,7 +665,7 @@ void Trecia::OnRender(SDLGL* engine, boost::posix_time::time_duration delta)
 	glEnable(GL_LIGHTING);
 	glEnable(GL_DEPTH_TEST);
 
-	SDL_GL_SwapBuffers();
+	SDL_GL_SwapWindow(engine->surface);
 }
 
 void Trecia::OnExitWindow(SDLGL* engine)
@@ -776,6 +776,37 @@ void Trecia::OnMouseUp(SDLGL* engine, SDL_Event* ev)
 	}
 }
 
+void Trecia::OnMouseWheel(SDLGL *engine, SDL_Event *ev){
+    if (ortho)
+    {
+        if (ev->wheel.y > 0) // mouse wheel up
+        {
+            orthoScale *= 1.5 * abs(ev->wheel.y);
+        }
+        if (ev->wheel.y < 0) // mouse wheel down
+        {
+            orthoScale /= 1.5 * abs(ev->wheel.y);
+        }
+    }
+    else
+    {
+        if (cameraMode == camExamine)
+        {
+            float change = 6 * movementSpeed;
+            if (ev->wheel.y > 0) // mouse wheel up
+            {
+                examineDistance -= change * abs(ev->wheel.y);
+                camera.Pan(Vector3f(0,0,change));
+            }
+            if (ev->wheel.y < 0) // mouse wheel down
+            {
+                examineDistance += change * abs(ev->wheel.y);
+                camera.Pan(Vector3f(0,0,-change));
+            }
+        }
+    }
+}
+
 void Trecia::OnMouseDown(SDLGL* engine, SDL_Event* ev)
 {
 	if (!ui.OnMouseDown(ev))
@@ -791,35 +822,6 @@ void Trecia::OnMouseDown(SDLGL* engine, SDL_Event* ev)
 		if (ev->button.button == SDL_BUTTON_MIDDLE)
 		{
 			middleDown = true;
-		}
-
-		if (ortho)
-		{
-			if (ev->button.button == 4) // mouse wheel up
-			{
-				orthoScale *= 1.5;
-			}
-			if (ev->button.button == 5) // mouse wheel down
-			{
-				orthoScale /= 1.5;
-			}
-		}
-		else
-		{
-			if (cameraMode == camExamine)
-			{
-				float change = 6 * movementSpeed;
-				if (ev->button.button == 4) // mouse wheel up
-				{
-					examineDistance -= change;
-					camera.Pan(Vector3f(0,0,change));
-				}
-				if (ev->button.button == 5) // mouse wheel down
-				{
-					examineDistance += change;
-					camera.Pan(Vector3f(0,0,-change));
-				}
-			}
 		}
 	}
 }

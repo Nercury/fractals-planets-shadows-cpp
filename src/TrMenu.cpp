@@ -27,7 +27,7 @@ void TrMenu::Terminate()
 
 void TrMenu::Render(boost::posix_time::time_duration delta)
 {
-	Window::Render(delta);
+	MWindow::Render(delta);
 
 	glPushMatrix();
 

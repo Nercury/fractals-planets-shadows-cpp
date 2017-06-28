@@ -1,12 +1,12 @@
 #include "TextureManager.h"
 
-#include "SDL_image.h"
+#include "SDL2/SDL_image.h"
 #include "L.h"
 
 using namespace std;
 
-void loadTextureSize(std::string filename, int32_t * w, int32_t * h);
-void loadGLTexture(std::string filename, GLuint texture, int32_t * w, int32_t * h);
+void __loadTextureSize(std::string filename, int32_t * w, int32_t * h);
+void __loadGLTexture(std::string filename, GLuint texture, int32_t * w, int32_t * h);
 
 TextureManager::TextureManager(void)
 {
@@ -26,7 +26,7 @@ void TextureManager::MapFileTexture(GLuint & texture, std::string path, int32_t 
 		tx->textureID = 0;
 		tx->links.insert(&texture);
 		texture = 0;
-		loadTextureSize(path, &(tx->width), &(tx->height));
+		__loadTextureSize(path, &(tx->width), &(tx->height));
 		width = tx->width;
 		height = tx->height;
 		files.insert(pair<std::string, TextureInfo*>(path, tx));
@@ -61,7 +61,7 @@ void TextureManager::MapFileTexture(GLuint & texture, std::string path)
 		tx->textureID = 0;
 		tx->links.insert(&texture);
 		texture = 0;
-		loadTextureSize(path, &(tx->width), &(tx->height));
+		__loadTextureSize(path, &(tx->width), &(tx->height));
 		files.insert(pair<std::string, TextureInfo*>(path, tx));
 		modified = true;
 	}
@@ -144,11 +144,7 @@ static SDL_Surface *prepGLTexture(SDL_Surface *surface, GLfloat *texCoords) {
 	}
 
 	/* Save the alpha blending attributes */
-	Uint32 savedFlags = surface->flags&(SDL_SRCALPHA|SDL_RLEACCELOK);
-	Uint8  savedAlpha = surface->format->alpha;
-	if ( (savedFlags & SDL_SRCALPHA) == SDL_SRCALPHA ) {
-		SDL_SetAlpha(surface, 0, 0);
-	}
+//	Uint32  savedAlpha = surface->format->Amask;
 
 	SDL_Rect srcArea, destArea;
 	/* Copy the surface into the GL texture image */
@@ -161,10 +157,7 @@ static SDL_Surface *prepGLTexture(SDL_Surface *surface, GLfloat *texCoords) {
 	srcArea.h = surface->h;
 	SDL_BlitSurface(surface, &srcArea, image, &destArea);
 
-	/* Restore the alpha blending attributes */
-	if ((savedFlags & SDL_SRCALPHA) == SDL_SRCALPHA) {
-		SDL_SetAlpha(surface, savedFlags, savedAlpha);
-	}
+//	SDL_SetSurfaceAlphaMod(surface, savedAlpha); // TODO: Surface alpha wtf
 
 	/* Turn the image upside-down, because OpenGL textures
 	   start at the bottom-left, instead of the top-left
@@ -228,7 +221,7 @@ void TextureManager::WindowResize()
 	modified = true;
 }
 
-static void loadTextureSize(std::string filename, int32_t * w, int32_t * h)
+void __loadTextureSize(std::string filename, int32_t * w, int32_t * h)
 {
 	SDL_Surface * s = load_img(filename);
 	if (s != NULL)
@@ -238,7 +231,7 @@ static void loadTextureSize(std::string filename, int32_t * w, int32_t * h)
 	}
 }
 
-static void loadGLTexture(std::string filename, GLuint texture, int32_t * w, int32_t * h)
+void __loadGLTexture(std::string filename, GLuint texture, int32_t * w, int32_t * h)
 {
 	l(string("Loading image: ") + filename, L_INFO);
 	SDL_Surface * s = load_img(filename);
@@ -296,7 +289,7 @@ void TextureManager::SceneStart()
 			}
 			if (!glIsTexture(tx->textureID))
 			{
-				loadGLTexture(it->first, tx->textureID, &(tx->width), &(tx->height));
+				__loadGLTexture(it->first, tx->textureID, &(tx->width), &(tx->height));
 			}
 		}
 		modified = false;

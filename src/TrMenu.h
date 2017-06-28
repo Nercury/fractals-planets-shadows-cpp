@@ -5,7 +5,7 @@
 #include "TrMenuItem.h"
 
 class TrMenu
-	: public Window
+	: public MWindow
 {
 private:
 	WHandle mouse_over_handle;

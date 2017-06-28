@@ -18,7 +18,7 @@ private:
 	bool is_active;
 	int32_t width;
 	int32_t height;
-	std::list<p<Window>> windows;
+	std::list<p<MWindow>> windows;
 	std::queue<WHandle> windowRemoveQueue;
 	WHandle mouse_window_handle;
 	boost::function<void ()> MouseGrabFunction;
@@ -30,9 +30,9 @@ private:
 	void DoPendingWindowRemove();
 	void DoWindowRemoveByHandle(WHandle handle);
 public:
-	void AddWindow(p<Window> window);
-	void RemoveWindow(p<Window> window);
-	void RemoveWindow(Window * window);
+	void AddWindow(p<MWindow> window);
+	void RemoveWindow(p<MWindow> window);
+	void RemoveWindow(MWindow * window);
 	void Activate();
 	void Deactivate();
 	void UngrabMouse();

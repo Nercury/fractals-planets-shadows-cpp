@@ -46,13 +46,13 @@ string GetStringFromUnicode(Uint16 code)
 		return string("");
 	}
 }
-SDLKey numpadvals[] = { 
+SDL_Keycode numpadvals[] = {
 	SDLK_KP_PERIOD,
-	SDLK_KP0,	SDLK_KP1,	SDLK_KP2,	SDLK_KP3,	SDLK_KP4,	SDLK_KP5,	SDLK_KP6,	SDLK_KP7,
-	SDLK_KP8,	SDLK_KP9,
+	SDLK_KP_0,	SDLK_KP_1,	SDLK_KP_2,	SDLK_KP_3,	SDLK_KP_4,	SDLK_KP_5,	SDLK_KP_6,	SDLK_KP_7,
+	SDLK_KP_8,	SDLK_KP_9,
 };
 
-SDLKey cvals[] = { 
+SDL_Keycode cvals[] = {
 	SDLK_0,	SDLK_1,	SDLK_2,	SDLK_3,	SDLK_4,	SDLK_5,	SDLK_6,	SDLK_7,	SDLK_8,	SDLK_9,	SDLK_q,	SDLK_w,	SDLK_e,
 	SDLK_r,	SDLK_t,	SDLK_y,	SDLK_u,	SDLK_i,	SDLK_o,	SDLK_p,	SDLK_a,	SDLK_s,	SDLK_d,	SDLK_f,	SDLK_g,	SDLK_h,
 	SDLK_j,	SDLK_k,	SDLK_l,	SDLK_z,	SDLK_x,	SDLK_c,	SDLK_v,	SDLK_b,	SDLK_n,	SDLK_m,	SDLK_LEFTBRACKET,
@@ -62,13 +62,13 @@ SDLKey cvals[] = {
 	SDLK_KP_PLUS,	SDLK_KP_DIVIDE,	SDLK_KP_MINUS,	SDLK_KP_EQUALS,	SDLK_KP_MULTIPLY,
 };
 
-bool IsSDLKeysymValidSymbol(SDL_keysym *keysym)
+bool IsSDLKeysymValidSymbol(SDL_Keysym *keysym)
 {
 	bool valid = false;
 	uint32_t i;
-	if (!((keysym->mod & KMOD_ALT) || (keysym->mod & KMOD_CTRL) || (keysym->mod & KMOD_META)))
+	if (!((keysym->mod & KMOD_ALT) || (keysym->mod & KMOD_CTRL) || (keysym->mod & KMOD_MODE)))
 	{
-		for (i = 0; i < (int32_t)(sizeof(cvals)/sizeof(SDLKey)); i++)
+		for (i = 0; i < (int32_t)(sizeof(cvals)/sizeof(SDL_Keycode)); i++)
 		{
 			if (cvals[i] == keysym->sym)
 			{
@@ -78,7 +78,7 @@ bool IsSDLKeysymValidSymbol(SDL_keysym *keysym)
 		}
 		if (keysym->mod & KMOD_NUM)
 		{
-			for (i = 0; i < (int32_t)(sizeof(numpadvals)/sizeof(SDLKey)); i++)
+			for (i = 0; i < (int32_t)(sizeof(numpadvals)/sizeof(SDL_Keycode)); i++)
 			{
 				if (numpadvals[i] == keysym->sym)
 				{

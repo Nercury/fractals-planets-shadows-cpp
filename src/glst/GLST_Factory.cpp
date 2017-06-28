@@ -250,7 +250,7 @@ GLST_Factory* UseFactory(string font_file, int size)
 		if (TTF_Init() < 0)
 		{
 			l("TTF library initialization failed: ", TTF_GetError(), L_FAILURE);
-			return false;
+			return nullptr;
 		}
 	}
 
