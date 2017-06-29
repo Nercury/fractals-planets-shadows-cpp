@@ -129,17 +129,17 @@ private:
 	bool shadows;
 	virtual void Update(boost::posix_time::time_duration delta);
 protected:
-	virtual bool OnInitWindow(SDLGL* engine);
-	virtual void OnResizeWindow(SDLGL* engine);
-	virtual void OnRender(SDLGL* engine, boost::posix_time::time_duration delta);
-	virtual void OnExitWindow(SDLGL* engine);
-	virtual void OnKeyUp(SDLGL* engine, SDL_Event* ev);
-	virtual void OnKeyDown(SDLGL* engine, SDL_Event* ev);
-	virtual void OnMouseWheel(SDLGL* engine, SDL_Event* ev);
-	virtual void OnMouseUp(SDLGL* engine, SDL_Event* ev);
-	virtual void OnMouseDown(SDLGL* engine, SDL_Event* ev);
-	virtual void OnMouseMove(SDLGL* engine, SDL_Event* ev);
+	virtual bool OnInitWindow(SDLGL* engine) override ;
+	virtual void OnResizeWindow(SDLGL* engine) override ;
+	virtual void OnRender(SDLGL* engine, boost::posix_time::time_duration delta) override ;
+	virtual void OnExitWindow(SDLGL* engine) override ;
+	virtual void OnKeyUp(SDLGL* engine, SDL_Event* ev) override ;
+	virtual void OnKeyDown(SDLGL* engine, SDL_Event* ev) override ;
+	virtual void OnMouseWheel(SDLGL* engine, SDL_Event* ev) override ;
+	virtual void OnMouseUp(SDLGL* engine, SDL_Event* ev) override ;
+	virtual void OnMouseDown(SDLGL* engine, SDL_Event* ev) override ;
+	virtual void OnMouseMove(SDLGL* engine, SDL_Event* ev) override ;
 public:
 	Trecia(void);
-	virtual ~Trecia(void);
+	virtual ~Trecia(void) override ;
 };

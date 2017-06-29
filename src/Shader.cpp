@@ -19,10 +19,6 @@ Shader::~Shader(void)
 			manager.o()->UnregisterShader(this);
 		}
 	}
-	for (auto it = params.begin(); it != params.end(); ++it)
-	{
-		delete it->second;
-	}
 }
 
 void Shader::LoadShader()

@@ -257,7 +257,7 @@ void Trecia::InitFramebuffer(GLuint * fboId)
 bool Trecia::OnInitWindow(SDLGL* engine)
 {
 	sh_n_light_textured.put(new Shader(shaders, FullPathTo("shaders/n_light_vs.fx"), FullPathTo("shaders/n_light_ps.fx")));
-	sh_shiny_no_texture.put(new Shader(shaders, FullPathTo("shaders/shiny_no_texture_vs.fx"), FullPathTo("shadersf/shiny_no_texture_ps.fx")));
+	sh_shiny_no_texture.put(new Shader(shaders, FullPathTo("shaders/shiny_no_texture_vs.fx"), FullPathTo("shaders/shiny_no_texture_ps.fx")));
 
 	floor.shader = sh_n_light_textured;
 	wleft.shader = sh_n_light_textured;

@@ -17,8 +17,8 @@ public:
 	Vector3f color;
 	Light();
 	Light(int index, Vector3f position, Quaternionf rotation);
-	virtual ~Light();
-	virtual void Render();
-	virtual void BeginScene();
-	virtual void EndScene();
+	virtual ~Light() override ;
+	virtual void Render() override ;
+	virtual void BeginScene() override ;
+	virtual void EndScene() override ;
 };

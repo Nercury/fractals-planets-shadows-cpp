@@ -32,8 +32,8 @@ public:
 		std::function<void (float&,float&,float&,float&,float&)> func2,
 		std::function<void (float&,float&,float&,float&,float&)> func3
 		) : uRange(uRange), vRange(vRange), func1(func1), func2(func2), func3(func3) {};
-	virtual ~PolyObject() {};
-	virtual void Render();
+	virtual ~PolyObject()  override  {};
+	virtual void Render() override ;
 
 	// meta info
 	inline std::string toString() {

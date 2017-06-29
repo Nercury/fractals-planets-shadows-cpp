@@ -47,12 +47,12 @@ private:
 	void PutSphere(GLuint texture, GLfloat radius, GLint detail);
 	void DrawSatellite();
 protected:
-	virtual bool OnInitWindow(SDLGL* engine);
-	virtual void OnResizeWindow(SDLGL* engine);
-	virtual void OnRender(SDLGL* engine, boost::posix_time::time_duration delta);
-	virtual void OnExitWindow(SDLGL* engine);
-	virtual void OnKeyDown(SDLGL* engine, SDL_Event* ev);
+	virtual bool OnInitWindow(SDLGL* engine) override ;
+	virtual void OnResizeWindow(SDLGL* engine) override ;
+	virtual void OnRender(SDLGL* engine, boost::posix_time::time_duration delta) override ;
+	virtual void OnExitWindow(SDLGL* engine) override ;
+	virtual void OnKeyDown(SDLGL* engine, SDL_Event* ev) override ;
 public:
 	Planets(void);
-	virtual ~Planets(void);
+	virtual ~Planets(void) override ;
 };

@@ -692,9 +692,9 @@ void SDLGL::Run()
 												 this->width, this->height,
                                                  SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE );
 
-                SDL_SetWindowMinimumSize(this->surface, 320, 200);
-                SDL_SetWindowMaximumSize(this->surface, 100000, 100000);
-                SDL_SetWindowSize(this->surface, 800, 600);
+//                SDL_SetWindowMinimumSize(this->surface, 320, 200);
+//                SDL_SetWindowMaximumSize(this->surface, 100000, 100000);
+//                SDL_SetWindowSize(this->surface, 800, 600);
 
                 SDL_GLContext context = SDL_GL_CreateContext(this->surface);
 

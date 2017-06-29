@@ -19,8 +19,8 @@ public:
 	std::vector<int> colorIndexes;
 	std::vector<int> indexes;
 	WrlModel() {};
-	virtual ~WrlModel() {};
-	virtual void Render();
+	virtual ~WrlModel() override  {};
+	virtual void Render() override ;
 
 	// meta info
 	inline std::string toString() {
