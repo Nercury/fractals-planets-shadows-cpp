@@ -604,7 +604,9 @@ if (false
   } else
     shading_enabled = false;
 }
-
+#else
+void setupExtensions()
+{ shading_enabled = true; }; // OS X already has these extensions
 #endif
 
 #define SCREEN_BPP 16

@@ -20,14 +20,14 @@ ShaderManager::~ShaderManager(void)
 	shaders.clear();
 }
 
-bool ShaderManager::LinkProgram(GLenum program)
+bool ShaderManager::LinkProgram(GLHANDLE program)
 {
 	cout << "Linking shader..." << endl;
 	glLinkProgramARB(program);
 	int32_t char_count = 0;
 	glGetInfoLogARB(program, COMPILE_LOG_LENGTH, &char_count, &compileLog[0]);
 	int result;
-	glGetProgramiv(program, GL_LINK_STATUS, &result);
+	glGetProgramiv((size_t)program, GL_LINK_STATUS, &result);
 	if (char_count > 0)
 	{
 		string s(compileLog, char_count);
@@ -42,7 +42,7 @@ bool ShaderManager::LinkProgram(GLenum program)
 	return true;
 }
 
-GLenum ShaderManager::GetObject(string filename, GLenum type)
+GLHANDLE ShaderManager::GetObject(string filename, GLenum type)
 {
 	auto it = objects.find(filename);
 	if (it != objects.end())
@@ -68,7 +68,7 @@ GLenum ShaderManager::GetObject(string filename, GLenum type)
 			return NULL;
 		}
 
-		GLenum shader = glCreateShaderObjectARB(type);
+        GLHANDLE shader = glCreateShaderObjectARB(type);
 
 		//cout << "Loading shader source..." << endl;
 		string sourcestring = ss.str();
@@ -81,7 +81,7 @@ GLenum ShaderManager::GetObject(string filename, GLenum type)
 		int32_t char_count = 0;
 		glGetInfoLogARB(shader, COMPILE_LOG_LENGTH, &char_count, &compileLog[0]);
 		int result;
-		glGetShaderiv(shader, GL_COMPILE_STATUS, &result);
+		glGetShaderiv((size_t)shader, GL_COMPILE_STATUS, &result);
 		if (char_count > 0)
 		{
 			string s(compileLog, char_count);
@@ -95,7 +95,7 @@ GLenum ShaderManager::GetObject(string filename, GLenum type)
 		}
 		cout << "Shader compiled successfully." << endl;
 
-		objects.insert(pair<string, GLenum>(filename, shader));
+		objects.insert(pair<string, GLHANDLE>(filename, shader));
 
 		return shader;
 	}

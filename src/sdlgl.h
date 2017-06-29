@@ -2,32 +2,27 @@
 
 #include "a_win.h"
 
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include "glext.h"
-
+#include "gl.h"
 #include <SDL2/SDL.h>
-//#define NO_SDL_GLEXT
-//#include <SDL_opengl.h>
 
 static bool shading_enabled = false;
 
+void setupExtensions();
+
 #ifdef __WIN32__
+  #include "glext.h"
   #define uglGetProcAddress(x) wglGetProcAddress(x)
   #define WIN32_OR_X11
-  void setupExtensions();
 #else
 # ifdef __APPLE__
 	  #include <OpenGL/glu.h>
 	  #include <OpenGL/glext.h>
-	  void setupExtensions()
-	  { shading_enabled = true; }; // OS X already has these extensions
 # else
+      #include "glext.h"
 	  #include <GL/glx.h>
 	  #include <GL/glxext.h>
 	  #define uglGetProcAddress(x) (*glXGetProcAddressARB)((const GLubyte*)(x))
 	  #define WIN32_OR_X11
-	  void setupExtensions();
 # endif
 #endif
 

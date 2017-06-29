@@ -29,7 +29,7 @@ void Shader::LoadShader()
 {
 	vs = manager.o()->GetObject(vfile, GL_VERTEX_SHADER_ARB);
 	ps = manager.o()->GetObject(ffile, GL_FRAGMENT_SHADER_ARB);
-	GLenum program = glCreateProgramObjectARB();
+	GLHANDLE program = glCreateProgramObjectARB();
 	if (vs != NULL)
 		glAttachObjectARB(program, vs);
 	if (ps != NULL)

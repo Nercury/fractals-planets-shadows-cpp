@@ -15,9 +15,9 @@ private:
 	p<ShaderManager> manager;
 	std::string vfile;
 	std::string ffile;
-	GLenum vs;
-	GLenum ps;
-	GLenum program;
+	GLHANDLE vs;
+	GLHANDLE ps;
+	GLHANDLE program;
 	std::map<std::string, ShaderParamBase*> params;
 	void LoadShader();
 public:
@@ -26,7 +26,7 @@ public:
 	virtual ~Shader(void);
 	void Use();
 	int Uniform(std::string name) { return glGetUniformLocationARB(program, name.c_str()); };
-	int Attr(std::string name) { return glGetAttribLocationARB(program, name.c_str()); };
+	int Attr(std::string name) { return glGetUniformLocationARB(program, name.c_str()); };
 	void BindTexture(std::string name, int index, GLuint texture) 
 	{
 		SetParam(name, new ParamTexture(index, texture));

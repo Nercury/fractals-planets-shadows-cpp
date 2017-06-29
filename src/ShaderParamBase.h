@@ -5,6 +5,6 @@
 class ShaderParamBase
 {
 public:
-	virtual void Apply(const char* name, GLenum program) {};
+	virtual void Apply(const char* name, GLHANDLE program) {};
 	ShaderParamBase() {};
 };

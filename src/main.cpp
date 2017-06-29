@@ -15,20 +15,20 @@ int main(int argc, char* argv[])
 
 	SDLGL engine("Trecia uzduotis", 800, 500, false);
 
-//	{
-//		Fractals game_fractals;
-//		game_fractals.Run(engine);
-//	}
+	{
+		Fractals game_fractals;
+		game_fractals.Run(engine);
+	}
 
 //	{
 //		Planets game_planets;
 //		game_planets.Run(engine);
 //	}
 	
-	{
-		Trecia trecia_uzduotis;
-		trecia_uzduotis.Run(engine);
-	}
+//	{
+//		Trecia trecia_uzduotis;
+//		trecia_uzduotis.Run(engine);
+//	}
 
 	std::cout << "Press any key to exit..." << std::endl;
 
